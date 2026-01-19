@@ -4,19 +4,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import { Terminal, Play, Upload, BarChart2, Settings } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
 export function Tutorials() {
     const { language } = useLanguage();
     const isZh = language === 'zh-TW';
 
     return (
-        <section id="tutorials" className="py-24 bg-slate-950 relative overflow-hidden">
+        <section id="tutorials" className="py-24 bg-surface-dark relative overflow-hidden">
             <div className="container mx-auto px-4 relative z-10">
                 <div className="text-center mb-16">
-                    <h2 className="text-white text-3xl md:text-4xl font-bold mb-4 tracking-tight">
+                    <h2 className="text-foreground text-3xl md:text-4xl font-bold mb-4 tracking-tight">
                         {isZh ? '開始使用' : 'Getting Started'}
                     </h2>
-                    <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+                    <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                         {isZh ? '按照指南設定並開始使用排球分析系統。' : 'Follow our guide to set up and start using the Volleyball Analysis System.'}
                     </p>
                 </div>
@@ -43,39 +44,48 @@ export function Tutorials() {
                             </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="space-y-4">
-                                    <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600 text-xs">1</span>
+                                    <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600 text-xs" aria-hidden="true">1</span>
                                         {isZh ? '複製儲存庫' : 'Clone Repository'}
                                     </h3>
-                                    <div className="bg-slate-950 p-4 rounded-lg font-mono text-sm border border-slate-800">
-                                        <p className="text-blue-400">git clone https://github.com/DL-Volleyball-Analysis/volleyball_analysis_webapp.git</p>
-                                        <p className="text-slate-500">cd volleyball_analysis_webapp</p>
-                                    </div>
+                                    <ScrollArea className="w-full rounded-lg border border-border">
+                                        <div className="bg-surface-dark p-4 font-mono text-sm">
+                                            <p className="text-blue-400 whitespace-nowrap">git clone https://github.com/DL-Volleyball-Analysis/volleyball_analysis_webapp.git</p>
+                                            <p className="text-muted-foreground whitespace-nowrap">cd volleyball_analysis_webapp</p>
+                                        </div>
+                                        <ScrollBar orientation="horizontal" />
+                                    </ScrollArea>
                                 </div>
 
                                 <div className="space-y-4">
-                                    <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600 text-xs">2</span>
+                                    <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600 text-xs" aria-hidden="true">2</span>
                                         {isZh ? '設定環境' : 'Setup Environment'}
                                     </h3>
-                                    <div className="bg-slate-950 p-4 rounded-lg font-mono text-sm border border-slate-800">
-                                        <p className="text-slate-500"># {isZh ? '建立虛擬環境' : 'Create virtual environment'}</p>
-                                        <p className="text-blue-400">python3 -m venv venv</p>
-                                        <p className="text-blue-400">source venv/bin/activate</p>
-                                        <p className="text-slate-500"># {isZh ? '安裝依賴' : 'Install dependencies'}</p>
-                                        <p className="text-blue-400">pip install -r requirements.txt</p>
-                                    </div>
+                                    <ScrollArea className="w-full rounded-lg border border-border">
+                                        <div className="bg-surface-dark p-4 font-mono text-sm">
+                                            <p className="text-muted-foreground whitespace-nowrap"># {isZh ? '建立虛擬環境' : 'Create virtual environment'}</p>
+                                            <p className="text-blue-400 whitespace-nowrap">python3 -m venv venv</p>
+                                            <p className="text-blue-400 whitespace-nowrap">source venv/bin/activate</p>
+                                            <p className="text-muted-foreground whitespace-nowrap"># {isZh ? '安裝依賴' : 'Install dependencies'}</p>
+                                            <p className="text-blue-400 whitespace-nowrap">pip install -r requirements.txt</p>
+                                        </div>
+                                        <ScrollBar orientation="horizontal" />
+                                    </ScrollArea>
                                 </div>
 
                                 <div className="space-y-4">
-                                    <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600 text-xs">3</span>
+                                    <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-600 text-xs" aria-hidden="true">3</span>
                                         {isZh ? '運行應用程式' : 'Run Application'}
                                     </h3>
-                                    <div className="bg-slate-950 p-4 rounded-lg font-mono text-sm border border-slate-800">
-                                        <p className="text-blue-400">chmod +x start.sh</p>
-                                        <p className="text-blue-400">./start.sh</p>
-                                    </div>
+                                    <ScrollArea className="w-full rounded-lg border border-border">
+                                        <div className="bg-surface-dark p-4 font-mono text-sm">
+                                            <p className="text-blue-400 whitespace-nowrap">chmod +x start.sh</p>
+                                            <p className="text-blue-400 whitespace-nowrap">./start.sh</p>
+                                        </div>
+                                        <ScrollBar orientation="horizontal" />
+                                    </ScrollArea>
                                 </div>
                             </CardContent>
                         </Card>

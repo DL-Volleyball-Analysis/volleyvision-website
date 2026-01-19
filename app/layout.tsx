@@ -23,7 +23,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-TW" className="scroll-smooth">
-      <body className="antialiased min-h-screen bg-[#0A0E1A] text-slate-100">
+      <body className="antialiased min-h-screen bg-surface text-foreground">
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         <FontLoader />
         <LanguageProvider>
           {children}

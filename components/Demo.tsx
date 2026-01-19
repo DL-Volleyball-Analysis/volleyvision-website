@@ -15,22 +15,22 @@ export function Demo() {
   const { t } = useLanguage();
 
   return (
-    <section id="demo" className="py-24 bg-[#0A0E1A] relative overflow-hidden">
+    <section id="demo" className="py-24 bg-surface relative overflow-hidden">
       {/* Mikasa-inspired decorative background elements */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-[#0033A0] rounded-full blur-3xl mix-blend-screen animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#FFD100] rounded-full blur-3xl mix-blend-screen animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute inset-0 opacity-20" aria-hidden="true">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-secondary rounded-full blur-3xl mix-blend-screen animate-pulse"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl mix-blend-screen animate-pulse" style={{ animationDelay: '1s' }}></div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <div className="inline-block px-4 py-2 bg-[#0033A0]/20 text-[#FFD100] border border-[#0033A0]/40 rounded-sm mb-4 backdrop-blur-sm">
+          <div className="inline-block px-4 py-2 bg-secondary/20 text-primary border border-secondary/40 rounded-md mb-4 backdrop-blur-sm">
             {t.demo.badge}
           </div>
-          <h2 className="text-white text-4xl font-bold mb-4 tracking-tight">
+          <h2 className="text-foreground text-4xl font-bold mb-4 tracking-tight">
             {t.demo.title}
           </h2>
-          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             {t.demo.subtitle}
           </p>
         </div>

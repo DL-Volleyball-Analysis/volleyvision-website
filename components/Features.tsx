@@ -103,9 +103,9 @@ export function Features() {
   ];
 
   return (
-    <section id="features" className="py-24 bg-slate-900 relative overflow-hidden">
+    <section id="features" className="py-24 bg-surface-elevated relative overflow-hidden">
       {/* Background gradients */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-900/30 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-purple-900/30 rounded-full blur-3xl"></div>
       </div>
@@ -115,10 +115,10 @@ export function Features() {
           <div className="inline-block px-4 py-2 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full mb-4 backdrop-blur-sm">
             {isZh ? '功能特色' : 'Features'}
           </div>
-          <h2 className="text-white text-3xl md:text-4xl font-bold mb-4 tracking-tight">
+          <h2 className="text-foreground text-3xl md:text-4xl font-bold mb-4 tracking-tight">
             {isZh ? '比賽分析的全方位工具' : 'Powerful Analysis Tools for Every Aspect of the Game'}
           </h2>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             {isZh
               ? '我們全面的 AI 功能套件為您的每場排球比賽提供深入洞察。'
               : 'Our comprehensive suite of AI-powered features provides deep insights into every moment of your volleyball matches.'}
@@ -129,13 +129,17 @@ export function Features() {
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
-              <Card key={index} className="border-slate-700 bg-slate-800/50 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10">
+              <Card
+                key={index}
+                className="border-border bg-surface-card/50 backdrop-blur-sm hover:border-primary/50 transition-all duration-normal hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 opacity-0 animate-slide-up"
+                style={{ animationDelay: `${index * 0.1}s`, animationFillMode: 'forwards' }}
+              >
                 <CardContent className="p-6">
                   <div className={`w-12 h-12 ${feature.bgColor} rounded-lg flex items-center justify-center mb-4`}>
-                    <Icon className={`w-6 h-6 ${feature.color}`} />
+                    <Icon className={`w-6 h-6 ${feature.color}`} aria-hidden="true" />
                   </div>
-                  <h3 className="text-white font-semibold mb-2">{feature.title}</h3>
-                  <p className="text-slate-400">{feature.description}</p>
+                  <h3 className="text-foreground font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-muted-foreground">{feature.description}</p>
                 </CardContent>
               </Card>
             );

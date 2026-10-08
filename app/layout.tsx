@@ -1,38 +1,28 @@
 import type { Metadata } from 'next'
-import './globals.css'
-import { LanguageProvider } from '@/contexts/LanguageContext'
-import { FontLoader } from '@/components/FontLoader'
+import './site.css'
+import { PreferencesProvider } from '@/components/site/Preferences'
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
 export const metadata: Metadata = {
-  title: 'VolleyVision AI - Advanced Volleyball Analysis System | 基於深度學習的排球比賽分析系統',
-  description: 'AI-powered volleyball video analysis using computer vision and deep learning | 使用電腦視覺和深度學習技術追蹤排球軌跡、分析球員動作、優化團隊策略',
-  icons: {
-    icon: [
-      { url: `${basePath}/icon.svg`, type: 'image/svg+xml' },
-    ],
-    apple: `${basePath}/icon.svg`,
-  },
+  title: 'VolleyVision — volleyball, point by point',
+  description:
+    'Turning one camera’s volleyball match recording into a reviewable record: ball path, court, rallies and score. A research project from National Taiwan Ocean University, in progress.',
+  icons: { icon: [{ url: `${basePath}/icon.svg`, type: 'image/svg+xml' }], apple: `${basePath}/icon.svg` },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+// Applies the visitor's saved theme before first paint (light unless they chose dark).
+const themeScript = `try{if(localStorage.getItem('vv-theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}`
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh-TW" className="scroll-smooth">
-      <body className="antialiased min-h-screen bg-surface text-foreground">
-        <a href="#main-content" className="skip-link">
-          Skip to main content
-        </a>
-        <FontLoader />
-        <LanguageProvider>
-          {children}
-        </LanguageProvider>
+    <html lang="en">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body>
+        <PreferencesProvider>{children}</PreferencesProvider>
       </body>
     </html>
   )
 }
-

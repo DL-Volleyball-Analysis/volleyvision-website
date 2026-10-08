@@ -7,7 +7,7 @@ export type T = Record<Lang, string>
 
 export const ORG = 'https://github.com/DL-Volleyball-Analysis'
 export const CORE_REPO = `${ORG}/volleyball-analysis`
-export const WEBAPP_REPO = `${ORG}/volleyball_analysis_webapp`
+export const WEBAPP_REPO = `${CORE_REPO}/tree/main/webapp`
 export const REPORT_REPO = `${ORG}/capstone-report`
 export const UPSTREAM_BALL = 'https://github.com/asigatchov/fast-volleyball-tracking-inference'
 

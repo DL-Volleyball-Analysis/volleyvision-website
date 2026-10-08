@@ -104,7 +104,7 @@ export function Research() {
           <li><a href={`${CORE_REPO}/tree/main/docs/prd`}>docs/prd</a></li>
           <li><a href={`${CORE_REPO}/tree/main/openspec/specs`}>openspec/specs</a></li>
           <li><a href={`${CORE_REPO}/tree/main/docs/results`}>docs/results</a></li>
-          <li><a href={WEBAPP_REPO}>volleyball_analysis_webapp</a></li>
+          <li><a href={WEBAPP_REPO}>webapp</a></li>
         </ul>
       </div>
     </section>

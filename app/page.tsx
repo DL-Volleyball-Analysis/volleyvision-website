@@ -1,4 +1,4 @@
-import { Hero, Numbers, Pipeline, Research, SiteFooter, Team } from '@/components/site/Sections'
+import { Hero, Numbers, Output, Pipeline, Research, SiteFooter, Team } from '@/components/site/Sections'
 import { SiteHeader } from '@/components/site/SiteHeader'
 
 export default function Home() {
@@ -7,6 +7,7 @@ export default function Home() {
       <SiteHeader />
       <main>
         <Hero />
+        <Output />
         <Numbers />
         <Pipeline />
         <Research />

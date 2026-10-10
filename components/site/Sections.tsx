@@ -25,6 +25,37 @@ export function Hero() {
   )
 }
 
+const MEDIA = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/media`
+
+export function Output() {
+  const { lang } = usePrefs()
+  return (
+    <section id="output" className="section">
+      <div className="container">
+        <h2>{COPY.output.title[lang]}</h2>
+        <p className="section-sub">{COPY.output.sub[lang]}</p>
+        <figure className="output-figure">
+          {/* preload="none": the 1 MB clip loads only when played */}
+          <video controls muted loop playsInline preload="none" poster={`${MEDIA}/analysis-poster.jpg`} width={1280} height={720}>
+            <source src={`${MEDIA}/analysis.mp4`} type="video/mp4" />
+          </video>
+          <figcaption>{COPY.output.video[lang]}</figcaption>
+        </figure>
+        <div className="output-grid">
+          <figure className="output-figure">
+            <img src={`${MEDIA}/review-app.jpg`} alt={COPY.output.app[lang]} loading="lazy" width={1600} height={1000} />
+            <figcaption>{COPY.output.app[lang]}</figcaption>
+          </figure>
+          <figure className="output-figure">
+            <img src={`${MEDIA}/boards-and-stats.png`} alt={COPY.output.boards[lang]} loading="lazy" width={1125} height={378} />
+            <figcaption>{COPY.output.boards[lang]}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export function Numbers() {
   const { lang } = usePrefs()
   return (
@@ -118,7 +149,10 @@ export function Team() {
       <div className="container">
         <h2>{COPY.team.title[lang]}</h2>
         <p className="body-text">{COPY.team.body[lang]}</p>
-        <p><a href={REPORT_REPO}>{COPY.team.report[lang]}</a></p>
+        <ul className="links plain">
+          <li><a href={REPORT_REPO}>{COPY.team.report[lang]}</a></li>
+          <li><a href={`${ORG}?q=capstone-&type=archived`}>{COPY.team.archive[lang]}</a></li>
+        </ul>
       </div>
     </section>
   )

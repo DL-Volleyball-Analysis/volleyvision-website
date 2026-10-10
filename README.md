@@ -7,10 +7,12 @@ Next.js static export, deployed to GitHub Pages from `main` by `.github/workflow
 
 ## Rules
 - **Every number has a source.** Claims live in `lib/site/content.ts` with their source link and kind
-  (measured on labels, proxy, or published benchmark); a claim without a source does not type-check.
+  (measured on labels, proxy, synthetic, or published benchmark); a claim without a source does not type-check.
 - **Features say what exists.** Pipeline stages are marked works today / in progress / planned.
 - **The hero is a drawing.** `components/site/MatchIllustration.tsx` draws the review app with synthetic
   data, and its caption says so.
+- **Real output is labelled as real.** The "What it produces today" section shows a rendered analysis clip
+  (`public/media/analysis.mp4`, loaded only when played) and app screenshots; demo data in them is named.
 - Tokens live in `app/site.css` only; system fonts; mono only for machine-origin strings
   (file names, timecodes, paths).
 

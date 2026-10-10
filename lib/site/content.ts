@@ -14,8 +14,9 @@ export const UPSTREAM_BALL = 'https://github.com/asigatchov/fast-volleyball-trac
 export type Claim = {
   value: string
   label: T
-  /** labelled: measured against labels; proxy: no labels; benchmark: someone else's published number */
-  kind: 'labelled' | 'proxy' | 'benchmark'
+  /** labelled: measured against labels; proxy: no labels; synthetic: simulated data with known truth;
+   * benchmark: someone else's published number */
+  kind: 'labelled' | 'proxy' | 'synthetic' | 'benchmark'
   source: { href: string; text: T }
 }
 
@@ -41,17 +42,45 @@ export const CLAIMS: Claim[] = [
   {
     value: '0.49 m',
     label: {
-      en: 'median court position error on held-out labelled images, court model v2 (target 0.3 m; v3 training)',
-      zh: '場地模型 v2 在未參與訓練的標註影像上，場地座標誤差中位數（目標 0.3 m；v3 訓練中）',
+      en: 'median court position error on held-out labelled images, court model v2 (target 0.3 m; v3b training)',
+      zh: '場地模型 v2 在未參與訓練的標註影像上，場地座標誤差中位數（目標 0.3 m；v3b 訓練中）',
     },
     kind: 'labelled',
     source: { href: `${CORE_REPO}/blob/main/docs/results/court-keypoints.md`, text: { en: 'court model results', zh: '場地模型結果' } },
+  },
+  {
+    value: '0.484',
+    label: {
+      en: 'IDF1 of player tracking (YOLO26s + BoT-SORT, on-court filter) on SportsMOT volleyball (target 0.70)',
+      zh: '球員追蹤（YOLO26s + BoT-SORT，過濾場外人員）在 SportsMOT 排球序列上的 IDF1（目標 0.70）',
+    },
+    kind: 'labelled',
+    source: { href: `${CORE_REPO}/blob/main/docs/results/player-tracking.md`, text: { en: 'player tracking results', zh: '球員追蹤結果' } },
+  },
+  {
+    value: '0.05 m',
+    label: {
+      en: 'median 3D error of a fitted serve from one camera, on synthetic rallies with 2 px noise; spikes are flagged low quality',
+      zh: '單機位擬合發球的 3D 誤差中位數（合成回合、2 像素雜訊）；扣球會標示為低品質',
+    },
+    kind: 'synthetic',
+    source: { href: `${CORE_REPO}/blob/main/docs/results/trajectory.md`, text: { en: '3D trajectory results', zh: '3D 軌跡結果' } },
+  },
+  {
+    value: '0.957',
+    label: {
+      en: 'mAP@0.5 of the capstone action recogniser on its test split; test frames come from the same matches as training',
+      zh: '專題的動作辨識模型在測試集上的 mAP@0.5；測試集與訓練集來自同一批比賽',
+    },
+    kind: 'labelled',
+    source: { href: `${CORE_REPO}/blob/main/docs/results/actions.md`, text: { en: 'action results', zh: '動作辨識結果' } },
   },
 ]
 
 export const KIND: Record<Claim['kind'], T> = {
   labelled: { en: 'measured on labels', zh: '標註資料量測' },
   proxy: { en: 'no labels: a proxy', zh: '無標註：代理指標' },
+  synthetic: { en: 'synthetic data', zh: '合成資料' },
   benchmark: { en: 'published benchmark', zh: '公開基準' },
 }
 
@@ -71,8 +100,8 @@ export const PIPELINE: { name: T; what: T; status: Status }[] = [
   {
     name: { en: 'Find the court', zh: '找出場地' },
     what: {
-      en: '14 keypoints, including the net band, mapped to court metres. Any camera angle is the goal; accuracy is still being improved.',
-      zh: '偵測 14 個關鍵點（含網子上下緣），換算成場地公尺座標。目標是任何角度都能用，準確度仍在改善。',
+      en: '14 keypoints, including the net band, mapped to court metres per camera shot. A floor–net consistency check flags doubtful courts, which later stages do not use. Accuracy is still being improved.',
+      zh: '偵測 14 個關鍵點（含網子上下緣），逐鏡頭換算成場地公尺座標。地面與網子關鍵點不一致的場地會被標為可疑，後續階段不採用。準確度仍在改善。',
     },
     status: 'building',
   },
@@ -83,16 +112,27 @@ export const PIPELINE: { name: T; what: T; status: Status }[] = [
   },
   {
     name: { en: 'Track the players', zh: '追蹤球員' },
-    what: { en: 'Detection and tracking measured on labelled volleyball sequences before any training.', zh: '先在有標註的排球序列上量測現成模型，不夠好才訓練。' },
+    what: {
+      en: 'YOLO26s + BoT-SORT, placed in court metres; people off court are dropped. Labels are tracking ids, not shirt numbers yet.',
+      zh: 'YOLO26s + BoT-SORT，換算成場地公尺座標，並過濾場外人員。目前標示的是追蹤編號，還不是背號。',
+    },
+    status: 'works',
+  },
+  {
+    name: { en: 'Actions and shirt numbers', zh: '球員動作與背號' },
+    what: {
+      en: 'Serve, receive, set, spike and block per player, and shirt numbers read from the jersey, turned into suggested tags.',
+      zh: '辨識每位球員的發球、接球、舉球、扣球、攔網，並讀出背號，轉成建議標記。',
+    },
     status: 'planned',
   },
   {
     name: { en: '3D ball path', zh: '3D 球軌跡' },
     what: {
-      en: 'One camera, calibrated from the court and net; each flight fitted to physics, with its error shown.',
-      zh: '單機位，用場地和網子校正攝影機；每段飛行用物理模型擬合，並顯示誤差。',
+      en: 'One camera, calibrated from the court and net; each flight fitted to physics, with its error shown and impossible fits dropped. Waits for a more accurate court model on real footage.',
+      zh: '單機位，用場地和網子校正攝影機；每段飛行用物理模型擬合，顯示誤差並剔除不合物理的結果。真實影片上還在等更準的場地模型。',
     },
-    status: 'planned',
+    status: 'building',
   },
   {
     name: { en: 'Rallies and score', zh: '回合與比分' },
@@ -121,6 +161,14 @@ export const APP_FEATURES: { name: T; what: T }[] = [
     what: { en: 'J / K between rallies, 1 / 2 to set the winner. Corrections become labels for measuring accuracy.', zh: 'J / K 切換回合，1 / 2 指定得分方。修正紀錄會成為評估準確率的標註。' },
   },
   {
+    name: { en: 'Tactics board', zh: '戰術板' },
+    what: { en: 'Each rally’s ball flights on a 2D court and in 3D, with low-quality and unseen parts drawn as such.', zh: '每個回合的球飛行畫在 2D 場地與 3D 視角上，低品質與攝影機看不到的段落會另外標示。' },
+  },
+  {
+    name: { en: 'Player statistics', zh: '球員統計' },
+    what: { en: 'Attack and serve tags become attack efficiency, kill rate, aces and serve errors per player, exported as CSV.', zh: '攻擊與發球標記換算成每位球員的攻擊效率、得分率、發球得分與失誤，可匯出 CSV。' },
+  },
+  {
     name: { en: 'Honest status', zh: '誠實的狀態' },
     what: { en: 'Every stage says whether it ran, is unavailable, or is not built yet. Demo data is always labelled.', zh: '每個階段都會說明是否完成、尚未就緒或尚未實作；示範資料一定會標示。' },
   },
@@ -135,8 +183,8 @@ export const COPY = {
       zh: '把一台攝影機錄下的比賽，變成可以逐分檢討的紀錄：球的路徑、場地、每一個回合與比分。',
     },
     status: {
-      en: 'Work in progress. Ball tracking and the review app work today; court detection, scoring and 3D trajectories are being built.',
-      zh: '開發中。球追蹤與比賽回顧介面已可使用；場地偵測、自動計分與 3D 軌跡正在進行。',
+      en: 'Work in progress. Ball tracking, player tracking and the review app work today; court detection is being improved; 3D trajectories, actions and scoring are being built.',
+      zh: '開發中。球追蹤、球員追蹤與比賽回顧介面已可使用；場地偵測持續改善中；3D 軌跡、動作辨識與自動計分正在進行。',
     },
     primary: { en: 'Read the research', zh: '看研究內容' },
     secondary: { en: 'View the code', zh: '看程式碼' },
@@ -157,6 +205,25 @@ export const COPY = {
     sub: { en: 'A staged pipeline: a new model reruns only the stages after it.', zh: '分階段的分析流程：換了某個模型，只需要重跑它之後的階段。' },
   },
   app: { title: { en: 'The review app', zh: '比賽回顧介面' } },
+  output: {
+    title: { en: 'What it produces today', zh: '目前實際的分析結果' },
+    sub: {
+      en: 'Real output, not a drawing: a 6 s broadcast clip analysed end to end, and the review app.',
+      zh: '這是真實輸出，不是示意圖：一段 6 秒的轉播片段完整分析的結果，以及比賽回顧介面。',
+    },
+    video: {
+      en: 'Ball trail (VballNet), player tracks (YOLO26s + BoT-SORT; labels are tracking ids), court lines from the keypoint model, and players on a top-down court map. Footage: Volleyball World broadcast, for research only.',
+      zh: '球的軌跡（VballNet）、球員追蹤（YOLO26s + BoT-SORT；標示為追蹤編號）、關鍵點模型找到的場地線，以及右下角俯視場地圖上的球員位置。畫面來源：Volleyball World 轉播，僅供研究。',
+    },
+    app: {
+      en: 'Match review with overlays, rally list and timeline lanes. Rallies here are demo data until rally detection lands.',
+      zh: '比賽回顧：影片疊加、回合清單與時間軸分軌。回合偵測完成前，此處的回合為示範資料。',
+    },
+    boards: {
+      en: '2D and 3D tactics board (demo flights) and player statistics from coach tags.',
+      zh: '2D／3D 戰術板（示範飛行）與教練標記產生的球員統計。',
+    },
+  },
   research: {
     title: { en: 'Research', zh: '研究' },
     items: [
@@ -175,10 +242,10 @@ export const COPY = {
         },
       },
       {
-        name: { en: 'Measured, not claimed', zh: '量測，而不是宣稱' },
+        name: { en: 'Every number has a measurement behind it', zh: '每個數字都有量測依據' },
         what: {
-          en: 'Each component is scored on labelled data with standard metrics (court error in metres; HOTA / IDF1 for players; F1 for the ball). Results live next to the code.',
-          zh: '每個元件都在標註資料上用標準指標評分（場地誤差用公尺；球員用 HOTA / IDF1；球用 F1），結果與程式碼放在一起。',
+          en: 'Each component is scored with standard metrics (court error in metres; HOTA / IDF1 for players; mAP for actions; F1 for the ball). Results and the scripts that produce them live next to the code, and corrections are published when an earlier number turns out wrong.',
+          zh: '每個元件都用標準指標評分（場地誤差用公尺；球員用 HOTA / IDF1；動作用 mAP；球用 F1）。結果與產生它的程式放在一起；發現先前的數字有誤時，也會公開更正。',
         },
       },
     ],
@@ -194,6 +261,7 @@ export const COPY = {
       zh: '源自國立臺灣海洋大學資訊工程學系專題：梁祐嘉（組長）、蔡佩穎、鍾佳芯；指導教授丁培毅。目前的重建由梁祐嘉進行。',
     },
     report: { en: 'Capstone report', zh: '專題報告' },
+    archive: { en: 'Capstone repositories (archived)', zh: '專題時期的 repository（已封存）' },
   },
   footer: { en: 'Code under MIT. Court keypoint data from Roboflow Universe (CC BY 4.0).', zh: '程式碼採 MIT 授權。場地關鍵點資料來自 Roboflow Universe（CC BY 4.0）。' },
 } satisfies Record<string, unknown>

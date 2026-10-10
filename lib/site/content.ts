@@ -22,10 +22,10 @@ export type Claim = {
 
 export const CLAIMS: Claim[] = [
   {
-    value: '2.7×',
+    value: '3.08',
     label: {
-      en: 'fewer false ball jumps after switching to VballNet V4c (8.37 → 3.08 per 100 frames, 5 broadcast clips)',
-      zh: '換成 VballNet V4c 後，球軌跡的假跳點減少（每百幀 8.37 → 3.08，5 段轉播片段）',
+      en: 'false ball jumps per 100 frames with VballNet V4c, 68.7% of frames detected (5 broadcast clips)',
+      zh: 'VballNet V4c 每百幀的球軌跡假跳點次數，偵測率 68.7%（5 段轉播片段）',
     },
     kind: 'proxy',
     source: { href: `${CORE_REPO}/blob/main/docs/results/ball-tracking.md`, text: { en: 'ball-tracking results', zh: '球追蹤結果' } },
@@ -42,8 +42,8 @@ export const CLAIMS: Claim[] = [
   {
     value: '0.49 m',
     label: {
-      en: 'median court position error on held-out labelled images, court model v2 (target 0.3 m; v3b training)',
-      zh: '場地模型 v2 在未參與訓練的標註影像上，場地座標誤差中位數（目標 0.3 m；v3b 訓練中）',
+      en: 'median court position error of the court keypoint model on held-out labelled images (target 0.3 m)',
+      zh: '場地關鍵點模型在未參與訓練的標註影像上，場地座標誤差中位數（目標 0.3 m）',
     },
     kind: 'labelled',
     source: { href: `${CORE_REPO}/blob/main/docs/results/court-keypoints.md`, text: { en: 'court model results', zh: '場地模型結果' } },
@@ -69,8 +69,8 @@ export const CLAIMS: Claim[] = [
   {
     value: '0.957',
     label: {
-      en: 'mAP@0.5 of the capstone action recogniser on its test split; test frames come from the same matches as training',
-      zh: '專題的動作辨識模型在測試集上的 mAP@0.5；測試集與訓練集來自同一批比賽',
+      en: 'mAP@0.5 of the action recogniser (YOLOv11m) on its test split; test frames come from the same matches as training',
+      zh: '動作辨識模型（YOLOv11m）在測試集上的 mAP@0.5；測試集與訓練集來自同一批比賽',
     },
     kind: 'labelled',
     source: { href: `${CORE_REPO}/blob/main/docs/results/actions.md`, text: { en: 'action results', zh: '動作辨識結果' } },

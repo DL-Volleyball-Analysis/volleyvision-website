@@ -49,10 +49,10 @@ export const CLAIMS: Claim[] = [
     source: { href: `${CORE_REPO}/blob/main/docs/results/court-keypoints.md`, text: { en: 'court model results', zh: '場地模型結果' } },
   },
   {
-    value: '0.484',
+    value: '0.690',
     label: {
-      en: 'IDF1 of player tracking (YOLO26s + BoT-SORT, on-court filter) on SportsMOT volleyball (target 0.70)',
-      zh: '球員追蹤（YOLO26s + BoT-SORT，過濾場外人員）在 SportsMOT 排球序列上的 IDF1（目標 0.70）',
+      en: 'IDF1 of player tracking on SportsMOT volleyball, with a detector fine-tuned to box players only (precision 0.970: no referees or spectators)',
+      zh: '球員追蹤在 SportsMOT 排球序列上的 IDF1；偵測器微調為只框場上球員（精確度 0.970，不框裁判與觀眾）',
     },
     kind: 'labelled',
     source: { href: `${CORE_REPO}/blob/main/docs/results/player-tracking.md`, text: { en: 'player tracking results', zh: '球員追蹤結果' } },
@@ -113,18 +113,18 @@ export const PIPELINE: { name: T; what: T; status: Status }[] = [
   {
     name: { en: 'Track the players', zh: '追蹤球員' },
     what: {
-      en: 'YOLO26s + BoT-SORT, placed in court metres; people off court are dropped. Labels are tracking ids, not shirt numbers yet.',
-      zh: 'YOLO26s + BoT-SORT，換算成場地公尺座標，並過濾場外人員。目前標示的是追蹤編號，還不是背號。',
+      en: 'YOLO26s fine-tuned to box players only, BoT-SORT tracking, positions in court metres; referees, line judges and spectators are left out.',
+      zh: 'YOLO26s 微調為只框場上球員，BoT-SORT 追蹤，換算成場地公尺座標；裁判、司線員與觀眾不會被框。',
     },
     status: 'works',
   },
   {
     name: { en: 'Actions and shirt numbers', zh: '球員動作與背號' },
     what: {
-      en: 'Serve, receive, set, spike and block per player, and shirt numbers read from the jersey, turned into suggested tags.',
-      zh: '辨識每位球員的發球、接球、舉球、扣球、攔網，並讀出背號，轉成建議標記。',
+      en: 'Serve, receive, set, spike and block per player, and shirt numbers read from the jersey (voted over time), turned into suggested tags the coach accepts.',
+      zh: '辨識每位球員的發球、接球、舉球、扣球、攔網，並讀出背號（依時間投票），轉成教練確認的建議標記。',
     },
-    status: 'planned',
+    status: 'works',
   },
   {
     name: { en: '3D ball path', zh: '3D 球軌跡' },
@@ -237,8 +237,8 @@ export const COPY = {
       {
         name: { en: 'Landing calls from one camera', zh: '單機位判斷落地' },
         what: {
-          en: 'Tennis and professional volleyball use 10-19 synchronised cameras. With one, the plan combines the 3D fit, learned event spotting and the sound of the bounce, and reports uncertainty near the lines.',
-          zh: '網球與職業排球使用 10 到 19 台同步攝影機。只有一台時，計畫結合 3D 擬合、學習式事件偵測與落地的聲音，並在邊線附近回報不確定度。',
+          en: 'Tennis and professional volleyball rely on several synchronised cameras. With one, the plan combines the 3D fit, learned event spotting and the sound of the bounce, and reports uncertainty near the lines.',
+          zh: '網球與職業排球依靠多台同步攝影機。只有一台時，計畫結合 3D 擬合、學習式事件偵測與落地的聲音，並在邊線附近回報不確定度。',
         },
       },
       {

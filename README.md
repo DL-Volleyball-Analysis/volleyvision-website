@@ -29,3 +29,7 @@ npm install
 npm run dev        # http://localhost:3000
 npm run build      # static export into out/
 ```
+
+## Performance
+Lighthouse 12, mobile emulation, on the static export (2026-10-11): performance 97, accessibility 100; initial
+load 0.51 MB (target < 2 MB), LCP 2.6 s, TBT 0 ms, CLS 0. The analysis video loads only when played.

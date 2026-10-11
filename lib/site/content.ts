@@ -212,12 +212,12 @@ export const COPY = {
       zh: '這是真實輸出，不是示意圖：一段 6 秒的轉播片段完整分析的結果，以及比賽回顧介面。',
     },
     video: {
-      en: 'Ball trail (VballNet), player tracks (YOLO26s + BoT-SORT; labels are tracking ids), court lines from the keypoint model, and players on a top-down court map. Footage: Volleyball World broadcast, for research only.',
-      zh: '球的軌跡（VballNet）、球員追蹤（YOLO26s + BoT-SORT；標示為追蹤編號）、關鍵點模型找到的場地線，以及右下角俯視場地圖上的球員位置。畫面來源：Volleyball World 轉播，僅供研究。',
+      en: 'Ball trail (VballNet), players only (a YOLO26s detector fine-tuned on SportsMOT, BoT-SORT tracks; labelled by tracking id, or shirt number once read) with the action in progress, court lines from the keypoint model, and players on a top-down court map. Referees and line judges are not boxed. Footage: Volleyball World broadcast, for research only.',
+      zh: '球的軌跡（VballNet）、只框球員（以 SportsMOT 微調的 YOLO26s 偵測器加 BoT-SORT 追蹤；標示追蹤編號，讀到背號後改標背號）與正在進行的動作、關鍵點模型找到的場地線，以及右下角俯視場地圖上的球員位置。裁判與司線員不會被框。畫面來源：Volleyball World 轉播，僅供研究。',
     },
     app: {
-      en: 'Match review with overlays, rally list and timeline lanes. Rallies here are demo data until rally detection lands.',
-      zh: '比賽回顧：影片疊加、回合清單與時間軸分軌。回合偵測完成前，此處的回合為示範資料。',
+      en: 'Match review with court lines and players on the video, the 2D tactics board with this clip’s 3D flights, and timeline lanes for ball, actions and tags. Rallies here are demo data until rally detection lands.',
+      zh: '比賽回顧：影片上的場地線與球員、本片段 3D 飛行的 2D 戰術板，以及球、動作與標記的時間軸分軌。回合偵測完成前，此處的回合為示範資料。',
     },
     boards: {
       en: '2D and 3D tactics board (demo flights) and player statistics from coach tags.',

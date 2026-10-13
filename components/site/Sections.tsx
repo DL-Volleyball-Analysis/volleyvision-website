@@ -43,7 +43,7 @@ export function Output() {
         </figure>
         <div className="output-grid">
           <figure className="output-figure">
-            <img src={`${MEDIA}/review-app.jpg`} alt={COPY.output.app[lang]} loading="lazy" width={1600} height={1000} />
+            <img src={`${MEDIA}/review-app.jpg`} alt={COPY.output.app[lang]} loading="lazy" width={1136} height={1043} />
             <figcaption>{COPY.output.app[lang]}</figcaption>
           </figure>
           <figure className="output-figure">

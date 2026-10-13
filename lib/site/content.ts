@@ -22,31 +22,22 @@ export type Claim = {
 
 export const CLAIMS: Claim[] = [
   {
-    value: '3.08',
+    value: '0.10 m',
     label: {
-      en: 'false ball jumps per 100 frames with VballNet V4c, 68.7% of frames detected (5 broadcast clips)',
-      zh: 'VballNet V4c 每百幀的球軌跡假跳點次數，偵測率 68.7%（5 段轉播片段）',
-    },
-    kind: 'proxy',
-    source: { href: `${CORE_REPO}/blob/main/docs/results/ball-tracking.md`, text: { en: 'ball-tracking results', zh: '球追蹤結果' } },
-  },
-  {
-    value: '0.902',
-    label: {
-      en: 'F1 of the VballNet V4c ball detector on its authors’ test set',
-      zh: 'VballNet V4c 球偵測模型在原作者測試集上的 F1',
-    },
-    kind: 'benchmark',
-    source: { href: UPSTREAM_BALL, text: { en: 'upstream benchmark', zh: '上游公開基準' } },
-  },
-  {
-    value: '0.49 m',
-    label: {
-      en: 'median court position error of the court keypoint model on held-out labelled images (target 0.3 m)',
-      zh: '場地關鍵點模型在未參與訓練的標註影像上，場地座標誤差中位數（目標 0.3 m）',
+      en: 'median court-position error on held-out broadcast clips (96% within 0.3 m); 0.49 m on held-out gym images',
+      zh: '未參與訓練的轉播片段上，場地座標誤差中位數（96% 在 0.3 m 內）；體育館影像上為 0.49 m',
     },
     kind: 'labelled',
-    source: { href: `${CORE_REPO}/blob/main/docs/results/court-keypoints.md`, text: { en: 'court model results', zh: '場地模型結果' } },
+    source: { href: `${CORE_REPO}/blob/main/docs/results/court-keypoints.md`, text: { en: 'court results', zh: '場地結果' } },
+  },
+  {
+    value: '6 / 6',
+    label: {
+      en: 'arenas where the court fitted to the painted lines of a fixed end-line camera is right (by eye; both keypoint models fail on this view)',
+      zh: '端線後方固定鏡頭以地面白線配對場地，6 座球館都正確（肉眼判斷；兩個關鍵點模型在這種視角都失敗）',
+    },
+    kind: 'proxy',
+    source: { href: `${CORE_REPO}/blob/main/docs/results/court-keypoints.md`, text: { en: 'court results', zh: '場地結果' } },
   },
   {
     value: '0.690',
@@ -58,22 +49,49 @@ export const CLAIMS: Claim[] = [
     source: { href: `${CORE_REPO}/blob/main/docs/results/player-tracking.md`, text: { en: 'player tracking results', zh: '球員追蹤結果' } },
   },
   {
-    value: '0.05 m',
+    value: '0.946',
     label: {
-      en: 'median 3D error of a fitted serve from one camera, on synthetic rallies with 2 px noise; spikes are flagged low quality',
-      zh: '單機位擬合發球的 3D 誤差中位數（合成回合、2 像素雜訊）；扣球會標示為低品質',
+      en: 'ball detection F1 (10 px) of WASB fine-tuned on gym footage, on held-out gym matches; VballNet V4c, in the pipeline today, scores 0.859',
+      zh: '以體育館影片微調的 WASB 在保留的體育館比賽上的球偵測 F1（10 像素）；目前流程使用的 VballNet V4c 為 0.859',
+    },
+    kind: 'labelled',
+    source: { href: `${CORE_REPO}/blob/main/docs/results/ball-tracking.md`, text: { en: 'ball results', zh: '球偵測結果' } },
+  },
+  {
+    value: '0.678',
+    label: {
+      en: 'macro F1 of block / receive / set / spike per player on 16 unseen matches of the Volleyball dataset (the capstone detector: 0.303)',
+      zh: '在 Volleyball 資料集 16 場未見過的比賽上，每位球員的攔網／接球／舉球／扣球 macro F1（專題的偵測器為 0.303）',
+    },
+    kind: 'labelled',
+    source: { href: `${CORE_REPO}/blob/main/docs/results/actions.md`, text: { en: 'action results', zh: '動作結果' } },
+  },
+  {
+    value: '0.31 m',
+    label: {
+      en: 'median 3D error of an attack from one camera with the touches anchored to the players (0.76 m without), on synthetic rallies with realistic detection errors',
+      zh: '單機位重建扣球的 3D 誤差中位數，觸球點以球員位置為錨點（不用時 0.76 m）；合成回合、真實比例的偵測誤差',
     },
     kind: 'synthetic',
     source: { href: `${CORE_REPO}/blob/main/docs/results/trajectory.md`, text: { en: '3D trajectory results', zh: '3D 軌跡結果' } },
   },
   {
-    value: '0.957',
+    value: '0.742',
     label: {
-      en: 'mAP@0.5 of the action recogniser (YOLOv11m) on its test split; test frames come from the same matches as training',
-      zh: '動作辨識模型（YOLOv11m）在測試集上的 mAP@0.5；測試集與訓練集來自同一批比賽',
+      en: 'rally detection F1 on two held-out broadcast matches; 0.76 on six fixed end-line clips with a model trained on labels read from the score bug',
+      zh: '兩場保留的轉播比賽上的回合偵測 F1；固定端線鏡頭以比分條讀出的標註另訓練一個模型，在 6 段片段上為 0.76',
     },
     kind: 'labelled',
-    source: { href: `${CORE_REPO}/blob/main/docs/results/actions.md`, text: { en: 'action results', zh: '動作辨識結果' } },
+    source: { href: `${CORE_REPO}/blob/main/docs/results/rallies.md`, text: { en: 'rally results', zh: '回合結果' } },
+  },
+  {
+    value: '0.824',
+    label: {
+      en: 'shirt digit mAP@0.5 on teams the model never saw; numbers are voted per player over time',
+      zh: '在模型沒看過的隊伍上，背號數字的 mAP@0.5；每位球員的號碼依時間投票決定',
+    },
+    kind: 'labelled',
+    source: { href: `${CORE_REPO}/blob/main/docs/results/actions.md`, text: { en: 'shirt number results', zh: '背號結果' } },
   },
 ]
 
@@ -94,20 +112,20 @@ export const STATUS: Record<Status, T> = {
 export const PIPELINE: { name: T; what: T; status: Status }[] = [
   {
     name: { en: 'Read the video', zh: '讀取影片' },
-    what: { en: 'Metadata and camera cuts, so each shot gets its own court.', zh: '影片資訊與鏡頭切換，每個鏡頭各自對應場地。' },
+    what: { en: 'Camera cuts and frame-to-frame camera motion, so the court follows pans and zooms.', zh: '鏡頭切換與逐幀的鏡頭運動，場地會跟著鏡頭平移與縮放。' },
     status: 'works',
   },
   {
     name: { en: 'Find the court', zh: '找出場地' },
     what: {
-      en: '14 keypoints, including the net band, mapped to court metres per camera shot. A floor–net consistency check flags doubtful courts, which later stages do not use. Accuracy is still being improved.',
-      zh: '偵測 14 個關鍵點（含網子上下緣），逐鏡頭換算成場地公尺座標。地面與網子關鍵點不一致的場地會被標為可疑，後續階段不採用。準確度仍在改善。',
+      en: '14 keypoints (net band included) per camera shot, the better of two models; a still end-line camera gets its court from the painted lines of an empty-court background plate. Doubtful courts are flagged and not used.',
+      zh: '逐鏡頭偵測 14 個關鍵點（含網子上下緣），在兩個模型中選較好的；端線後方的固定鏡頭改以空場背景圖上的地面白線配對。可疑的場地會被標出，後續不採用。',
     },
-    status: 'building',
+    status: 'works',
   },
   {
     name: { en: 'Track the ball', zh: '追蹤球' },
-    what: { en: 'VballNet V4c on every frame; misses stay misses, never invented.', zh: '每一幀都用 VballNet V4c 偵測；沒偵測到就標示缺失，不補假值。' },
+    what: { en: 'VballNet V4c on every frame; misses stay misses. A gym-tuned WASB replaces it after its broadcast test.', zh: '每一幀都用 VballNet V4c 偵測，沒偵測到就標示缺失。以體育館影片微調的 WASB 通過轉播測試後換入。' },
     status: 'works',
   },
   {
@@ -121,24 +139,32 @@ export const PIPELINE: { name: T; what: T; status: Status }[] = [
   {
     name: { en: 'Actions and shirt numbers', zh: '球員動作與背號' },
     what: {
-      en: 'Serve, receive, set, spike and block per player, and shirt numbers read from the jersey (voted over time), turned into suggested tags the coach accepts.',
-      zh: '辨識每位球員的發球、接球、舉球、扣球、攔網，並讀出背號（依時間投票），轉成教練確認的建議標記。',
+      en: 'Block, receive, set and spike per player from a classifier weighted by where the ball is, serves from a detector, shirt numbers voted over time; they become suggested tags the coach accepts.',
+      zh: '每位球員的攔網、接球、舉球、扣球由分類器判斷並以球的位置加權，發球由偵測器判斷，背號依時間投票；轉成教練確認的建議標記。',
     },
     status: 'works',
   },
   {
     name: { en: '3D ball path', zh: '3D 球軌跡' },
     what: {
-      en: 'One camera, calibrated from the court and net; each flight fitted to physics, with its error shown and impossible fits dropped. Waits for a more accurate court model on real footage.',
-      zh: '單機位，用場地和網子校正攝影機；每段飛行用物理模型擬合，顯示誤差並剔除不合物理的結果。真實影片上還在等更準的場地模型。',
+      en: 'One camera, calibrated from the court and the net; each flight fitted to physics with the touches anchored to the players, its error shown and impossible fits dropped. Real flights are often low quality: the 2D ball track is the limit.',
+      zh: '單機位，用場地和網子校正攝影機；每段飛行以物理模型擬合，觸球點以球員位置為錨點，顯示誤差並剔除不合物理的結果。真實影片上的飛行常為低品質，瓶頸在二維球偵測。',
     },
     status: 'building',
   },
   {
-    name: { en: 'Rallies and score', zh: '回合與比分' },
+    name: { en: 'Rallies', zh: '回合' },
     what: {
-      en: 'Landing, in or out, who won the point. Unsure calls are flagged for a one-key correction.',
-      zh: '落點、界內外、誰得分。不確定的判斷會標出來，按一個鍵就能修正。',
+      en: 'Play or no play from the system’s own cues, with one model for broadcasts and one for still end-line cameras.',
+      zh: '以系統自己的線索判斷比賽中或非比賽中；轉播與端線固定鏡頭各有一個模型。',
+    },
+    status: 'works',
+  },
+  {
+    name: { en: 'Landing and score', zh: '落點與比分' },
+    what: {
+      en: 'Landing, in or out and who won the point, with unsure calls flagged for a one-key correction. Until then the coach sets each rally’s winner.',
+      zh: '落點、界內外與誰得分，不確定的判斷會標出來、按一個鍵就能修正。在那之前，由教練指定每個回合的得分方。',
     },
     status: 'planned',
   },
@@ -152,8 +178,8 @@ export const APP_FEATURES: { name: T; what: T }[] = [
   {
     name: { en: 'An editor for a match', zh: '像剪輯軟體一樣看比賽' },
     what: {
-      en: 'Video with the ball trail, a rally inspector, and lanes for rallies, ball, landings and review.',
-      zh: '影片疊上球軌跡、回合屬性面板，以及回合、球、落點、待檢查四條分軌。',
+      en: 'Video with the court, players and ball trail, a rally inspector, and lanes for rallies, ball, landings, actions, tags and review.',
+      zh: '影片疊上場地、球員與球軌跡，搭配回合屬性面板，以及回合、球、落點、動作、標記與待檢查分軌。',
     },
   },
   {
@@ -183,8 +209,8 @@ export const COPY = {
       zh: '把一台攝影機錄下的比賽，變成可以逐分檢討的紀錄：球的路徑、場地、每一個回合與比分。',
     },
     status: {
-      en: 'Work in progress. Ball tracking, player tracking and the review app work today; court detection is being improved; 3D trajectories, actions and scoring are being built.',
-      zh: '開發中。球追蹤、球員追蹤與比賽回顧介面已可使用；場地偵測持續改善中；3D 軌跡、動作辨識與自動計分正在進行。',
+      en: 'Court, ball, players, actions, rallies and the review app work today, including on a fixed camera behind the end line; 3D flights work but are limited by the 2D ball track; automatic scoring is next.',
+      zh: '場地、球、球員、動作、回合與比賽回顧介面已可使用，端線後方的固定鏡頭也可以；3D 飛行可用，但受限於二維球偵測；下一步是自動計分。',
     },
     primary: { en: 'Read the research', zh: '看研究內容' },
     secondary: { en: 'View the code', zh: '看程式碼' },
@@ -208,16 +234,16 @@ export const COPY = {
   output: {
     title: { en: 'What it produces today', zh: '目前實際的分析結果' },
     sub: {
-      en: 'Real output, not a drawing: a 6 s broadcast clip analysed end to end, and the review app.',
-      zh: '這是真實輸出，不是示意圖：一段 6 秒的轉播片段完整分析的結果，以及比賽回顧介面。',
+      en: 'Real output, not a drawing: a fixed camera behind the end line (GCU vs UCLA) analysed end to end, and the review app.',
+      zh: '這是真實輸出，不是示意圖：端線後方一台固定攝影機（GCU vs UCLA）完整分析的結果，以及比賽回顧介面。',
     },
     video: {
-      en: 'Ball trail (VballNet), players only (a YOLO26s detector fine-tuned on SportsMOT, BoT-SORT tracks; labelled by tracking id, or shirt number once read) with the action in progress, court lines from the keypoint model, and players on a top-down court map. Referees and line judges are not boxed. Footage: Volleyball World broadcast, for research only.',
-      zh: '球的軌跡（VballNet）、只框球員（以 SportsMOT 微調的 YOLO26s 偵測器加 BoT-SORT 追蹤；標示追蹤編號，讀到背號後改標背號）與正在進行的動作、關鍵點模型找到的場地線，以及右下角俯視場地圖上的球員位置。裁判與司線員不會被框。畫面來源：Volleyball World 轉播，僅供研究。',
+      en: 'The court fitted to the painted lines of an empty-court background plate (the volleyball lines are black on this multi-sport floor), players tracked and coloured by side, the ball trail (VballNet), a top-down map and a 3D view with the current 3D flight. Footage: NCAA men’s volleyball (VolleyballWatchdog), for research only.',
+      zh: '以空場背景圖上的地面白線配對出的場地（這座多用途球館的排球線是黑色的）、依半場上色的球員追蹤、球的軌跡（VballNet），以及俯視圖與這一球的 3D 視圖。畫面來源：NCAA 男子排球（VolleyballWatchdog），僅供研究。',
     },
     app: {
-      en: 'Match review with court lines and players on the video, the 2D tactics board with this clip’s 3D flights, and timeline lanes for ball, actions and tags. Rallies here are demo data until rally detection lands.',
-      zh: '比賽回顧：影片上的場地線與球員、本片段 3D 飛行的 2D 戰術板，以及球、動作與標記的時間軸分軌。回合偵測完成前，此處的回合為示範資料。',
+      en: 'Match review on a fixed end-line clip: court lines and players on the video, the rally inspector and list (13 rallies found by the fixed-camera rally model), and timeline lanes for rallies, ball, actions and tags.',
+      zh: '固定端線鏡頭的比賽回顧：影片上的場地線與球員、回合屬性與列表（固定鏡頭回合模型找到的 13 個回合），以及回合、球、動作與標記的時間軸分軌。',
     },
     boards: {
       en: '2D and 3D tactics board (demo flights) and player statistics from coach tags.',
@@ -239,6 +265,13 @@ export const COPY = {
         what: {
           en: 'Tennis and professional volleyball rely on several synchronised cameras. With one, the plan combines the 3D fit, learned event spotting and the sound of the bounce, and reports uncertainty near the lines.',
           zh: '網球與職業排球依靠多台同步攝影機。只有一台時，計畫結合 3D 擬合、學習式事件偵測與落地的聲音，並在邊線附近回報不確定度。',
+        },
+      },
+      {
+        name: { en: 'Free labels from the score on screen', zh: '從畫面上的比分取得免費標註' },
+        what: {
+          en: 'Match video carries its own answer key: the score bug changes after every point. Read with OCR and filtered by the rules of the game (one point at a time), it gives each rally’s end and winner, which trained the fixed-camera rally model and will measure automatic scoring.',
+          zh: '比賽影片本身就帶著答案：每一分之後畫面上的比分都會改變。以 OCR 讀取並用比賽規則（每次只加一分）過濾誤讀，就得到每個回合的結束與得分方，用來訓練固定鏡頭的回合模型，之後也用來評估自動計分。',
         },
       },
       {

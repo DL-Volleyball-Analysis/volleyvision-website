@@ -31,12 +31,12 @@ export const CLAIMS: Claim[] = [
     source: { href: `${CORE_REPO}/blob/main/docs/results/court-keypoints.md`, text: { en: 'court results', zh: '場地結果' } },
   },
   {
-    value: '6 / 6',
+    value: '5 / 6',
     label: {
-      en: 'arenas where the court fitted to the painted lines of a fixed end-line camera is right (by eye; both keypoint models fail on this view)',
-      zh: '端線後方固定鏡頭以地面白線配對場地，6 座球館都正確（肉眼判斷；兩個關鍵點模型在這種視角都失敗）',
+      en: 'fixed end-line clips whose court, fitted to the painted lines, is right to 2-6 cm (median, hand-labelled floor points); the sixth is stretched in depth, 1.06 m off. Both keypoint models fail on this view',
+      zh: '端線後方固定鏡頭以地面白線配對場地，6 段中 5 段準確到 2–6 公分（人工標註地面點的誤差中位數）；第 6 段在深度方向被拉長，誤差 1.06 公尺。兩個關鍵點模型在這種視角都失敗',
     },
-    kind: 'proxy',
+    kind: 'labelled',
     source: { href: `${CORE_REPO}/blob/main/docs/results/court-keypoints.md`, text: { en: 'court results', zh: '場地結果' } },
   },
   {

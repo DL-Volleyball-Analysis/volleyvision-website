@@ -69,8 +69,8 @@ export const CLAIMS: Claim[] = [
   {
     value: '0.31 m',
     label: {
-      en: 'median 3D error of an attack from one camera with the touches anchored to the players (0.76 m without), on synthetic rallies with realistic detection errors',
-      zh: '單機位重建扣球的 3D 誤差中位數，觸球點以球員位置為錨點（不用時 0.76 m）；合成回合、真實比例的偵測誤差',
+      en: 'median 3D error of an attack from one camera with the touch anchored to the player who made it (0.76 m without), on synthetic rallies with realistic detection errors; with several players along the ball’s ray the anchor is withheld, since a wrong one costs metres',
+      zh: '單機位重建扣球的 3D 誤差中位數，觸球點以觸球者位置為錨點（不用時 0.76 m）；合成回合、真實比例的偵測誤差。沿視線有多名球員時不加錨點，因為選錯人的代價是數公尺',
     },
     kind: 'synthetic',
     source: { href: `${CORE_REPO}/blob/main/docs/results/trajectory.md`, text: { en: '3D trajectory results', zh: '3D 軌跡結果' } },
